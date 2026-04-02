@@ -53,7 +53,11 @@ macro spread*(call: untyped, args: varargs[untyped]): untyped =
     nnkTupleConstr, nnkTableConstr, nnkObjConstr}
   result =
     if call.kind in nnkCallKinds + colonKinds:
-      copy(call)
+      if call.len == 0:
+        # strip type from empty literals:
+        newNimNode(call.kind, call)
+      else:
+        copy(call)
     else:
       newCall(call)
   result.copyLineInfo(call)
