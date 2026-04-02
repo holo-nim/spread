@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.2.0"
+version       = "0.2.1"
 author        = "metagn"
 description   = "macro for spreading blocks into call parameters/collections"
 license       = "MIT"
@@ -11,21 +11,8 @@ srcDir        = "src"
 
 requires "nim >= 1.0.0"
 
-when (NimMajor, NimMinor) >= (1, 4):
-  when (compiles do: import nimbleutils):
-    import nimbleutils
-    # https://github.com/metagn/nimbleutils
-
 task docs, "build docs for all modules":
-  when declared(buildDocs):
-    buildDocs(gitUrl = "https://github.com/metagn/spread")
-  else:
-    echo "docs task not implemented, need nimbleutils"
+  exec "nim r tasks/build_docs.nim"
 
 task tests, "run tests for multiple backends and defines":
-  when declared(runTests):
-    runTests(
-      backends = {c, js, nims},
-    )
-  else:
-    echo "tests task not implemented, need nimbleutils"
+  exec "nim r tasks/run_tests.nim"
